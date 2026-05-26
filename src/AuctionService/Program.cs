@@ -1,5 +1,7 @@
 using AuctionService.Consumers;
 using AuctionService.Data;
+using AuctionService.Data.Abstraction;
+using AuctionService.Data.Implementation;
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -48,6 +50,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         options.TokenValidationParameters.NameClaimType = "username";
     });
 
+builder.Services.AddScoped<IAuctionRepository, AuctionRepository>();
+
 var app = builder.Build();
 
 app.UseAuthentication();
@@ -65,3 +69,5 @@ catch (Exception e)
 }
 
 app.Run();
+
+public partial class Program { }
