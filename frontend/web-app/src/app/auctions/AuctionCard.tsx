@@ -1,4 +1,4 @@
-import { Auction } from "@/index";
+import { Auction } from "@/app/types/index";
 import CarImage from "./CarImage";
 import CountdownTimer from "./CountdownTimer";
 type Props = {
