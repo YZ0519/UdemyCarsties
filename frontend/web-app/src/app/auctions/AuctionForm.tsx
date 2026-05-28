@@ -1,6 +1,6 @@
 "use client";
-import DateInput from "@/components/DateInput";
-import Input from "@/components/input";
+import DateInput from "@/app/components/DateInput";
+import Input from "@/app/components/input";
 import { Button, Spinner } from "flowbite-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";

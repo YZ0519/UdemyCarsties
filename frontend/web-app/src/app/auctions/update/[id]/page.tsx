@@ -1,4 +1,4 @@
-import Heading from "@/components/Heading";
+import Heading from "@/app/components/Heading";
 import AuctionForm from "../../AuctionForm";
 import { getDetailedViewData } from "@/app/actions/auctionActions";
 

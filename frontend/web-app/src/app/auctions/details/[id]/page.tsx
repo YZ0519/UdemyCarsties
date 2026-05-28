@@ -1,11 +1,12 @@
 import { getDetailedViewData } from "@/app/actions/auctionActions";
-import Heading from "@/components/Heading";
+import Heading from "@/app/components/Heading";
 import CountdownTimer from "../../CountdownTimer";
 import CarImage from "../../CarImage";
 import DetailedSpecs from "@/app/auctions/details/[id]/DetailedSpecs";
 import EditButton from "./EditButton";
 import { getCurrentUser } from "@/app/actions/authActions";
 import DeleteButton from "./DeleteButton";
+import BidList from "./BidList";
 
 type Params = Promise<{ id: string }>;
 
@@ -35,9 +36,7 @@ export default async function Details({ params }: { params: Params }) {
         <div className="relative w-full bg-gray-200 aspect-[16/10] rounded-lg overflow-hidden">
           <CarImage imageUrl={data.imageUrl} />
         </div>
-        <div className="border-2 rounded-lg bg-gray-200">
-          <Heading title="Bids" />
-        </div>
+        <BidList user={user} auction={data} />
       </div>
       <div className="mt-3 grid grid-cols-1 rounded-lg">
         <DetailedSpecs auction={data} />

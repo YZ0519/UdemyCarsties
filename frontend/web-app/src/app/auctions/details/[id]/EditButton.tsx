@@ -1,4 +1,4 @@
-import { LinkComponent } from "@/components/LinkComponent";
+import { LinkComponent } from "@/app/components/LinkComponent";
 import { Button } from "flowbite-react";
 
 type Props = {

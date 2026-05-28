@@ -1,6 +1,6 @@
 "use client";
 import { signOut } from "next-auth/react";
-import { LinkComponent } from "@/components/LinkComponent";
+import { LinkComponent } from "@/app/components/LinkComponent";
 import { Dropdown, DropdownDivider, DropdownItem } from "flowbite-react";
 import { User } from "next-auth";
 import { AiFillCar, AiFillTrophy, AiOutlineLogout } from "react-icons/ai";

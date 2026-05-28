@@ -1,4 +1,4 @@
-import EmptyFilter from "@/components/EmptyFilter";
+import EmptyFilter from "@/app/components/EmptyFilter";
 
 export default async function SignIn({
   searchParams,
