@@ -42,9 +42,9 @@ namespace SearchService.Controllers
                 query.Match(x => x.Seller == searchParams.Seller);
             }
 
-            if (!string.IsNullOrEmpty(searchParams.Winenr))
+            if (!string.IsNullOrEmpty(searchParams.Winner))
             {
-                query.Match(x => x.Winner == searchParams.Winenr);
+                query.Match(x => x.Winner == searchParams.Winner);
             }
 
             query.PageNumber(searchParams.PageNumber);

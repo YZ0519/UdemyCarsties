@@ -18,12 +18,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       return !!auth;
     },
     async jwt({ token, profile, account }) {
-      if (account && account.access_token) {
-        token.accessToken = account.access_token;
-        return token;
-      }
       if (profile) {
         token.username = profile.username;
+      }
+      if (account && account.access_token) {
+        token.accessToken = account.access_token;
       }
       return token;
     },
