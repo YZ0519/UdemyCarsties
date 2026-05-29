@@ -6,6 +6,8 @@ using AuctionService.Services;
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
+using Polly;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -62,14 +64,15 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapGrpcService<GrpcAuctionService>();
 
-try
-{
-    DbInitializer.InitDb(app);
-}
-catch (Exception e)
-{
-    Console.WriteLine(e);
-}
+var retryPolicy = Policy.Handle<NpgsqlException>()
+    .WaitAndRetry(5, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
+    (exception, timeSpan, retryCount) =>
+    {
+        Console.WriteLine($"Retry attempt {retryCount} failed. Retrying in " +
+            $"{timeSpan.TotalSeconds} seconds...");
+    });
+
+retryPolicy.ExecuteAndCapture(() => DbInitializer.InitDb(app));
 
 app.Run();
 

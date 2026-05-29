@@ -3,7 +3,11 @@
     "allow": [
       "Bash(npm install:*)",
       "Bash(docker compose logs:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(kubectl get pods:*)",
+      "Bash(kubectl get svc:*)",
+      "Bash(kubectl get ingress:*)",
+      "Bash(kubectl describe ingress:*)"
     ]
   }
 }

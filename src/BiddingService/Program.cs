@@ -4,6 +4,7 @@ using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using MongoDB.Driver;
 using MongoDB.Entities;
+using Polly;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,6 +48,17 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-await DB.InitAsync("BidDb", MongoClientSettings.FromConnectionString(builder.Configuration.GetConnectionString("BidDbConnection")));
+await Policy.Handle<TimeoutException>()
+.WaitAndRetryAsync(5, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
+(exception, timeSpan, retryCount, context) =>
+{
+    Console.WriteLine($"Retry attempt {retryCount} failed. Retrying in " +
+        $"{timeSpan.TotalSeconds} seconds...");
+}).ExecuteAndCaptureAsync(async () => 
+{
+    await DB.InitAsync("BidDb", MongoClientSettings.FromConnectionString(builder.Configuration.GetConnectionString("BidDbConnection")));
+});
+
+
 
 app.Run();

@@ -46,14 +46,13 @@ app.MapControllers();
 
 app.Lifetime.ApplicationStarted.Register(async () =>
 {
-    try
+    await Policy.Handle<TimeoutException>()
+    .WaitAndRetryAsync(5, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
+    (exception, timeSpan, retryCount, context) =>
     {
-        await DbInitializer.InitDb(app);
-    }
-    catch (Exception e)
-    {
-        Console.WriteLine(e);
-    }
+        Console.WriteLine($"Retry attempt {retryCount} failed. Retrying in " +
+            $"{timeSpan.TotalSeconds} seconds...");
+    }).ExecuteAndCaptureAsync(async () => await DbInitializer.InitDb(app));
 });
 
 app.Run();
