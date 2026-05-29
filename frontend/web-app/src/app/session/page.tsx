@@ -2,6 +2,8 @@ import { auth } from "@/auth";
 import Heading from "@/app/components/Heading";
 import AuthTest from "./AuthTest";
 
+export const dynamic = "force-dynamic";
+
 export default async function Session() {
   const session = await auth();
   return (

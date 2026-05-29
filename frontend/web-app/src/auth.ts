@@ -8,12 +8,21 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       id: "id-server",
       clientId: "nextApp",
       clientSecret: "secret",
-      issuer: "http://localhost:5000",
-      authorization: { params: { scope: "openid profile auctionApp" } },
+      issuer: process.env.ID_URL,
+      authorization: {
+        url: `${process.env.ID_URL}/connect/authorize`,
+        params: { scope: "openid profile auctionApp" },
+      },
+      token: `${process.env.ID_URL_INTERNAL}/connect/token`,
+      userinfo: `${process.env.ID_URL_INTERNAL}/connect/userinfo`,
+      jwks_endpoint: `${process.env.ID_URL_INTERNAL}/.well-known/openid-configuration/jwks`,
       idToken: true,
     } as OIDCConfig<Omit<Profile, "username">>),
   ],
   callbacks: {
+    async redirect({ url, baseUrl }) {
+      return url.startsWith(baseUrl) ? url : baseUrl;
+    },
     async authorized({ auth }) {
       return !!auth;
     },
